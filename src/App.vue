@@ -1,26 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title>Gestión de Habitaciones</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn text to="/">Inicio</v-btn>
+      <v-btn text to="/gestionar-habitaciones">Gestionar Habitaciones</v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <router-view></router-view>  <!-- Renderiza la vista actual -->
+    </v-main>
+
+    <v-footer app>
+      <v-col class="text-center" cols="12">
+        © 2024 Gestión de Habitaciones
+      </v-col>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
