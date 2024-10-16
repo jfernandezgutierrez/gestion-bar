@@ -7,6 +7,7 @@
     <v-row>
       <v-col v-for="habitacion in habitaciones" :key="habitacion.id" cols="12" md="4">
         <!-- Se aplica el color usando estilo en línea -->
+         
         <v-card :style="{ backgroundColor: getCardColor(habitacion) }" dark @click="openDetails(habitacion)">
           <v-card-title>{{ habitacion.nombre }}</v-card-title>
           <v-card-subtitle>Planta: {{ habitacion.planta }}</v-card-subtitle>

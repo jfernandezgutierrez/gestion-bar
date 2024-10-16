@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import routes from './router'; // Define las rutas
 import { auth } from './firebase'; // Importa Firebase
 
+
 const app = createApp(App);
 
 app.use(vuetify);
