@@ -27,7 +27,7 @@ export default {
     getCardColor(habitacion) {
       if (!habitacion.limpieza && habitacion.estado) return 'red'; // Ocupada y sucia
       if (!habitacion.limpieza && !habitacion.estado) return 'yellow'; // Libre y sucia
-      if (habitacion.estado) return 'green'; // Ocupada y limpia
+      if (habitacion.estado) return 'red'; // Ocupada y limpia
       return 'lightgreen'; // Libre y limpia
     },
 

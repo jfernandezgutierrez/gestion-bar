@@ -2,61 +2,100 @@
   <v-container>
     <!-- Detalles de la habitación -->
     <v-card>
-      <v-card-title>{{ habitacion.nombre }} - Detalles de Reserva</v-card-title>
-      <v-card-subtitle>Planta: {{ habitacion.planta }}</v-card-subtitle>
-      <v-card-text>
-        <p>Estado: {{ habitacion.estado ? 'Ocupada' : 'Libre' }}</p>
-        <p>Limpieza: {{ habitacion.limpieza ? 'Limpia' : 'Sucia' }}</p>
+      <v-card-title><h2>Detalles de Reserva</h2></v-card-title>
+      <v-card-subtitle><h1>{{ habitacion.nombre }}</h1></v-card-subtitle>
+      <v-card-subtitle><h1>Planta: {{ habitacion.planta }} </h1></v-card-subtitle>
+      <v-row>
+        <v-col cols="12" sm="12" md="12">
+          <v-card-text>
+            <h1>
+            <p>Estado: {{ habitacion.estado ? 'Ocupada' : 'Libre' }}</p><v-switch v-model="habitacion.estado" label="Ocupada"  @change="updateHabitacion" />
+            
+            <p>Limpieza: {{ habitacion.limpieza ? 'Limpia' : 'Sucia' }}</p></h1><v-switch v-model="habitacion.limpieza" label="Limpia"  @change="updateHabitacion"/>
 
-        <!-- Calendario (visual, solo para mostrar) -->
-        <v-date-picker 
-          v-model="date" 
-          :allowed-dates="allowedDates" 
-          max="2030-10-15" 
-          min="2016-06-15">
-        </v-date-picker>
+          </v-card-text>
+        </v-col>
+      </v-row>
+      <!-- Estructura con fila de dos columnas: Calendario a la izquierda, Formulario a la derecha -->
+      <v-row>
+        <!-- Columna para el calendario -->
+        <v-col cols="1" sm="1" md="3">
+          <v-card-text>
+            <!-- Calendario -->
+            <v-date-picker 
+              v-model="date" 
+              :allowed-dates="allowedDates" 
+              max="2030-10-15" 
+              min="2016-06-15">
+            </v-date-picker>
+          </v-card-text>
+        </v-col>
 
-        <!-- Formulario para agregar o editar reserva -->
-        <v-form v-model="formValid">
-          <v-text-field v-model="newReserva.nombreCliente" label="Nombre del Cliente" required />
-          <v-text-field v-model="newReserva.fechaEntrada" label="Fecha de Entrada" type="date" required @change="resetFechaValida" />
-          <v-text-field v-model="newReserva.fechaSalida" label="Fecha de Salida" type="date" required @change="resetFechaValida" />
+        <!-- Columna para el formulario -->
+        <v-col cols="12" sm="6" md="9">
+          <v-card-text>
+            <v-form v-model="formValid">
+              <v-text-field v-model="newReserva.nombreCliente" label="Nombre del Cliente" required />
 
-          <!-- Botón para agregar o guardar reserva -->
-          <v-btn 
-            @click="isEditing ? updateReserva() : addReserva()" 
-            color="primary" 
-            :disabled="!formValid || !isFechaValida">
-            {{ isEditing ? 'Modificar Reserva' : 'Agregar Reserva' }}
-          </v-btn>
-        </v-form>
+              <!-- Fechas de entrada y salida con columnas responsivas -->
+              <v-row>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field v-model="newReserva.fechaEntrada" label="Fecha de Entrada" type="date" required @change="resetFechaValida" />
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field v-model="newReserva.fechaSalida" label="Fecha de Salida" type="date" required @change="resetFechaValida" />
+                </v-col>
+              </v-row>
 
-        <!-- Mostrar mensaje de error si las fechas son invalidas -->
-        <v-alert v-if="!isFechaValida" type="error">
-          Las fechas seleccionadas se solapan con una reserva existente.
-        </v-alert>
+              <!-- Botón para agregar o guardar reserva -->
+              <v-btn 
+                @click="isEditing ? updateReserva() : addReserva()" 
+                color="primary" 
+                :disabled="!formValid || !isFechaValida">
+                {{ isEditing ? 'Modificar Reserva' : 'Agregar Reserva' }}
+              </v-btn>
+            </v-form>
 
-        <!-- Mostrar las reservas existentes -->
-        <v-list>
-          <v-list-item-group>
-            <v-list-item v-for="reserva in reservas" :key="reserva.id">
-              <v-list-item-content>
-                <v-list-item-title>{{ reserva.nombreCliente }}</v-list-item-title>
-                <v-list-item-subtitle>{{ reserva.fechaEntrada }} - {{ reserva.fechaSalida }}</v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <!-- Botones de edición y eliminación -->
-                <v-btn @click="deleteReserva(reserva.id)" icon>
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-card-text>
+            <!-- Mostrar mensaje de error si las fechas son invalidas -->
+            <v-alert v-if="!isFechaValida" type="error">
+              Las fechas seleccionadas se solapan con una reserva existente.
+            </v-alert>
+          </v-card-text>
+        </v-col>
+      </v-row>
+
+      <!-- Mostrar las reservas existentes -->
+      <v-row>
+        <v-col cols="12">
+          <v-card-text>
+            <v-list>
+              <v-list-item-group>
+                <v-list-item v-for="reserva in reservas" :key="reserva.id">
+                  <v-list-item-content>
+                    
+                    <v-list-item-title><h1>{{ reserva.nombreCliente }} </h1></v-list-item-title>
+                    <h2>{{ reserva.fechaEntrada }} - {{ reserva.fechaSalida }} </h2>
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <!-- Botones de edición y eliminación -->
+                    <v-btn @click="deleteReserva(reserva.id)" icon>
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-card-text>
+        </v-col>
+        
+        
+      </v-row>
+
     </v-card>
   </v-container>
 </template>
+
+
 
 <script>
 import { db } from '../firebase';
@@ -95,6 +134,19 @@ export default {
     await this.fetchReservas();
   },
   methods: {
+     // Función para actualizar el estado de la habitación en Firestore
+     async updateHabitacion() {
+      try {
+        const habitacionRef = doc(db, 'habitaciones', this.id);
+        await updateDoc(habitacionRef, {
+          estado: this.habitacion.estado,
+          limpieza: this.habitacion.limpieza,
+        });
+        console.log('Habitación actualizada correctamente');
+      } catch (error) {
+        console.error("Error al actualizar la habitación:", error);
+      }
+    },
     // Obtener las reservas de esta habitación desde Firestore
     async fetchReservas() {
       const reservasQuery = query(
@@ -217,6 +269,6 @@ export default {
     return !(dateToCheck >= reservaEntrada && dateToCheck <= reservaSalida);
   });
 }
-  }
+  },
 };
 </script>
